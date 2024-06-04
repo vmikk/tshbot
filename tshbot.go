@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"os"
 	"os/exec"
@@ -24,6 +25,7 @@ type Config struct {
 }
 
 var config Config
+var reservedWords = []string{"help", "commands"}
 
 func init() {
 
@@ -50,6 +52,11 @@ func init() {
 	// Validate token presence
 	if config.TGBotToken == "" || config.TGBotChatID == "" {
 		log.Fatal("Configuration must include TGBotToken and TGBotChatID")
+	}
+
+	// Validate allowed commands
+	if err := validateAllowedCommands(config.AllowedCmds); err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -159,4 +166,27 @@ func sendMessage(chatID int64, text string, bot *tgbotapi.BotAPI) {
 func isAllowedCommand(shortcut string) (string, bool) {
 	fullCmd, ok := config.AllowedCmds[shortcut]
 	return fullCmd, ok
+}
+
+func validateAllowedCommands(commands map[string]string) error {
+	seen := make(map[string]bool)
+	for shortcut := range commands {
+		if contains(reservedWords, shortcut) {
+			return errors.New("shortcut '" + shortcut + "' is a reserved word and cannot be used")
+		}
+		if seen[shortcut] {
+			return errors.New("shortcut '" + shortcut + "' is duplicated")
+		}
+		seen[shortcut] = true
+	}
+	return nil
+}
+
+func contains(slice []string, item string) bool {
+	for _, a := range slice {
+		if a == item {
+			return true
+		}
+	}
+	return false
 }
