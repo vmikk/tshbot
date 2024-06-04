@@ -119,14 +119,23 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 	if strings.HasPrefix(text, "/") {
 		cmdShortcut := strings.TrimPrefix(text, "/")
 		if fullCmd, ok := isAllowedCommand(cmdShortcut); ok {
-			output := execShellCommand(fullCmd)
-			sendMessage(chatID, output, bot)
+
+			if cmdShortcut == "shell" {
+				// Handle the special case for shell shortcut
+				cmd := strings.TrimPrefix(text, "/shell ")
+				output := execShellCommand(cmd)
+				sendMessage(chatID, output, bot)
+			} else {
+				output := execShellCommand(fullCmd)
+				sendMessage(chatID, output, bot)
+			}
+
 		} else {
 			log.Println("Command not recognized or allowed")
 			sendMessage(chatID, "Command not recognized or allowed", bot)
 		}
 	} else {
-		sendMessage(chatID, "Unknown command. Use /help for available commands.", bot)
+		sendMessage(chatID, "Commands should start with /. Use /help for available commands.", bot)
 	}
 }
 
