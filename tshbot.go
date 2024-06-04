@@ -113,8 +113,8 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 			output := execShellCommand(cmd)
 			sendMessage(chatID, output, bot)
 		} else {
-			log.Println("Command not allowed")
-			sendMessage(chatID, "Command not allowed", bot)
+			log.Println("Command not recognized or allowed")
+			sendMessage(chatID, "Command not recognized or allowed", bot)
 		}
 
 	case text == "/sysinfo":
