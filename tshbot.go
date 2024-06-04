@@ -15,12 +15,12 @@ import (
 
 // Config structure to hold the configuration data
 type Config struct {
-	BotLogFile  string   `yaml:"bot_log_file"`
-	BashCmd     string   `yaml:"bash_cmd"`
-	TGBotToken  string   `yaml:"tg_bot_token"`
-	TGBotChatID string   `yaml:"tg_bot_chat_id"`
-	AllowedCmds []string `yaml:"allowed_cmds"`
-	HelpMessage string   `yaml:"help_message"`
+	BotLogFile  string            `yaml:"bot_log_file"`
+	BashCmd     string            `yaml:"bash_cmd"`
+	TGBotToken  string            `yaml:"tg_bot_token"`
+	TGBotChatID string            `yaml:"tg_bot_chat_id"`
+	AllowedCmds map[string]string `yaml:"allowed_cmds"`
+	HelpMessage string            `yaml:"help_message"`
 }
 
 var config Config
@@ -101,39 +101,31 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 
 	log.Printf("Received command: %s from user: %d", text, userID)
 
-	switch {
-	case strings.HasPrefix(text, "/sh "):
-		cmd := strings.TrimPrefix(text, "/sh ")
-		if cmd == "" {
-			log.Println("Bot missing parameter")
-			sendMessage(chatID, "Missing command parameter", bot)
-			return
+	// Handle specific commands first
+	switch text {
+	case "/help":
+		sendMessage(chatID, config.HelpMessage, bot)
+		return
+	case "/commands":
+		commandsList := ""
+		for shortcut, fullCmd := range config.AllowedCmds {
+			commandsList += "/" + shortcut + " - " + fullCmd + "\n"
 		}
-		if isAllowedCommand(cmd) {
-			output := execShellCommand(cmd)
+		sendMessage(chatID, "Available commands:\n"+commandsList, bot)
+		return
+	}
+
+	// Check for user-allowed commands with user-defined shortcuts
+	if strings.HasPrefix(text, "/") {
+		cmdShortcut := strings.TrimPrefix(text, "/")
+		if fullCmd, ok := isAllowedCommand(cmdShortcut); ok {
+			output := execShellCommand(fullCmd)
 			sendMessage(chatID, output, bot)
 		} else {
 			log.Println("Command not recognized or allowed")
 			sendMessage(chatID, "Command not recognized or allowed", bot)
 		}
-
-	case text == "/sysinfo":
-		if isAllowedCommand("sysinfo") {
-			output := execShellCommand("df -h && free -m")
-			sendMessage(chatID, output, bot)
-		} else {
-			log.Println("Command not allowed")
-			sendMessage(chatID, "Command not allowed", bot)
-		}
-
-	case text == "/help":
-		sendMessage(chatID, config.HelpMessage, bot)
-
-	case text == "/commands":
-		commandsList := strings.Join(config.AllowedCmds, "\n")
-		sendMessage(chatID, "Available commands:\n"+commandsList, bot)
-
-	default:
+	} else {
 		sendMessage(chatID, "Unknown command. Use /help for available commands.", bot)
 	}
 }
@@ -155,11 +147,7 @@ func sendMessage(chatID int64, text string, bot *tgbotapi.BotAPI) {
 	}
 }
 
-func isAllowedCommand(command string) bool {
-	for _, allowedCmd := range config.AllowedCmds {
-		if strings.HasPrefix(command, allowedCmd) {
-			return true
-		}
-	}
-	return false
+func isAllowedCommand(shortcut string) (string, bool) {
+	fullCmd, ok := config.AllowedCmds[shortcut]
+	return fullCmd, ok
 }
