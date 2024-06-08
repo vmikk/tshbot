@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -77,6 +79,9 @@ func main() {
 	}
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
+	// Send startup message with system info
+	sendStartupMessage(bot)
+
 	// Create a new UpdateConfig struct with an offset of 0.
 	// Offsets are used to make sure Telegram knows we've handled previous values and we don't need them repeated.
 	u := tgbotapi.NewUpdate(0)
@@ -99,6 +104,51 @@ func main() {
 			handleCommand(update.Message, bot)
 		}
 	}
+}
+
+func sendStartupMessage(bot *tgbotapi.BotAPI) {
+	// Get the current time
+	currentTime := time.Now().Format(time.RFC1123)
+
+	// Get the current user
+	userName, err := os.UserHomeDir()
+	if err != nil {
+		userName = "unknown"
+	} else {
+		userName = filepath.Base(userName)
+	}
+
+	// Get the host name
+	hostName, err := os.Hostname()
+	if err != nil {
+		hostName = "unknown"
+	}
+
+	// Get the external IP address
+	resp, err := http.Get("https://api.ipify.org?format=text")
+	var ipAddress string
+	if err != nil {
+		ipAddress = "unknown"
+	} else {
+		defer resp.Body.Close()
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			ipAddress = "unknown"
+		} else {
+			ipAddress = string(body)
+		}
+	}
+
+	// Construct the startup message
+	startupMessage := "tshbot started!\n" +
+		"Time: " + currentTime + "\n" +
+		"User: " + userName + "\n" +
+		"Host: " + hostName + "\n" +
+		"External IP: " + ipAddress
+
+	// Send the startup message
+	chatID, _ := strconv.ParseInt(config.TGBotChatID, 10, 64)
+	sendMessage(chatID, startupMessage, bot)
 }
 
 func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
@@ -125,18 +175,18 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 	// Check for user-allowed commands with user-defined shortcuts
 	if strings.HasPrefix(text, "/") {
 		cmdShortcut := strings.Fields(strings.TrimPrefix(text, "/"))[0]
-			if cmdShortcut == "shell" {
-				// Handle the special case for shell shortcut
+		if cmdShortcut == "shell" {
+			// Handle the special case for shell shortcut
 			cmd := strings.TrimSpace(strings.TrimPrefix(text, "/shell"))
 			if cmd == "" {
 				sendMessage(chatID, "Please provide a command to execute.", bot)
 				return
 			}
-				output := execShellCommand(cmd)
-				sendMessage(chatID, output, bot)
+			output := execShellCommand(cmd)
+			sendMessage(chatID, output, bot)
 		} else if fullCmd, ok := isAllowedCommand(cmdShortcut); ok {
-				output := execShellCommand(fullCmd)
-				sendMessage(chatID, output, bot)
+			output := execShellCommand(fullCmd)
+			sendMessage(chatID, output, bot)
 		} else {
 			log.Println("Command not recognized or allowed")
 			sendMessage(chatID, "Command not recognized or allowed", bot)
