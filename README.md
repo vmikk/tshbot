@@ -15,6 +15,18 @@ Initially it was developed with the idea of conveniently running commands on dev
 - **Flexibility**: You have the option to run arbitrary shell commands. This can be enabled or disabled based on your preference for security
 
 
+# Configuration
+
+The configuration file (`tshbot.config`) should contain the following fields:
+
+- `bot_log_file`: Path to the log file
+- `bash_cmd`: Path to the bash executable
+- `tg_bot_token`: Telegram bot token
+- `tg_bot_chat_id`: Telegram chat ID for the bot
+- `allowed_cmds`: A map of command shortcuts to the actual shell commands
+- `help_message`: Message displayed when the /help command is issued
+
+
 # Acknowledgments
 
 This project was inspired by [fnzv/trsh-go](https://github.com/fnzv/trsh-go).
