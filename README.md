@@ -26,6 +26,15 @@ The configuration file (`tshbot.config`) should contain the following fields:
 - `allowed_cmds`: A map of command shortcuts to the actual shell commands
 - `help_message`: Message displayed when the /help command is issued
 
+# Usage
+
+## Commands
+
+- `/help`: Displays the help message
+- `/commands`: Lists all available commands
+- `/used_defined_shortcuts`: Executes a predefined command based on the shortcut defined in the configuration (e.g., `/cmd`)
+- `/shell` [command]: Executes a shell command directly (if allowed in the configuration)
+
 
 # Acknowledgments
 
