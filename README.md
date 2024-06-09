@@ -15,3 +15,6 @@ Initially it was developed with the idea of conveniently running commands on dev
 - **Flexibility**: You have the option to run arbitrary shell commands. This can be enabled or disabled based on your preference for security
 
 
+# Acknowledgments
+
+This project was inspired by [fnzv/trsh-go](https://github.com/fnzv/trsh-go).
