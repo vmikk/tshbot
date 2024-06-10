@@ -14,6 +14,24 @@ Initially it was developed with the idea of conveniently running commands on dev
 
 - **Flexibility**: You have the option to run arbitrary shell commands. This can be enabled or disabled based on your preference for security
 
+# Installation
+
+Create a configuration file at `~/.config/tshbot/tshbot.config` with the following content:
+
+``` yaml
+bot_log_file: "/path/to/your/logfile.log"
+bash_cmd: "/bin/bash"
+tg_bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
+tg_bot_chat_id: "YOUR_TELEGRAM_CHAT_ID"
+allowed_cmds:
+  ls: 'ls -la'
+  cmd: 'your commands here'
+  uptime: 'uptime'
+  shell: ''
+help_message: "Use /commands to see available commands."
+```
+Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGRAM_CHAT_ID` with your actual paths and credentials.
+
 
 # Configuration
 
