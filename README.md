@@ -32,6 +32,12 @@ help_message: "Use /commands to see available commands."
 ```
 Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGRAM_CHAT_ID` with your actual paths and credentials.
 
+### Security considerations
+
+>[!CAUTION]
+> Allowing execution of arbitrary shell commands can be potentially dangerous. 
+> It may lead to unauthorized access, system compromise, or data loss. 
+> To mitigate these risks, if the `shell` shortcut is missing in the `allowed_cmds` configuration, only the white-listed commands specified in `allowed_cmds` are allowed.
 
 # Configuration
 
