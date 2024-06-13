@@ -37,7 +37,9 @@ Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGR
 >[!CAUTION]
 > Allowing execution of arbitrary shell commands can be potentially dangerous. 
 > It may lead to unauthorized access, system compromise, or data loss. 
-> To mitigate these risks, if the `shell` shortcut is missing in the `allowed_cmds` configuration, only the white-listed commands specified in `allowed_cmds` are allowed.
+> To mitigate these risks, you may remove the `shell` shortcut from the `allowed_cmds` configuration. 
+> This will **allow only the white-listed commands** specified in `allowed_cmds`.
+
 
 # Configuration
 
