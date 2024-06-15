@@ -40,6 +40,13 @@ Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGR
 > To mitigate these risks, you may remove the `shell` shortcut from the `allowed_cmds` configuration. 
 > This will **allow only the white-listed commands** specified in `allowed_cmds`.
 
+## 3. Run the tool
+
+``` sh
+~/bin/tshbot
+```
+
+Now you can send command via Telegram.
 
 # Configuration
 
