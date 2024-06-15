@@ -73,6 +73,11 @@ The configuration file (`tshbot.config`) should contain the following fields:
 - Sending `/ls` via Telegram will execute `ls -la` on the server.
 - Sending `/shell uname -a` will execute `uname -a` on the server.
 
+## Logging
+
+The tool logs its activities and command executions to the specified log file. 
+Make sure the bot has write permissions to the log file.
+
 
 # Acknowledgments
 
