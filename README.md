@@ -78,6 +78,36 @@ The configuration file (`tshbot.config`) should contain the following fields:
 The tool logs its activities and command executions to the specified log file. 
 Make sure the bot has write permissions to the log file.
 
+# Auto-starting `tshbot`
+
+To ensure `tshbot` starts automatically on your system, you can create a `systemd` service file. 
+Follow these steps to set it up:
+
+### 1. Create the service file
+
+``` sh
+sudo nano /etc/systemd/system/tshbot.service
+```
+
+Add the following content to the file:
+``` ini
+[Unit]
+Description=tshbot service
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/home/pi/bin/tshbot
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+- `User=pi`: Change `pi` to the user that should run the service if different
+- `ExecStart=/home/pi/bin/tshbot`: If different, change to the actual path of the `tshbot` binary
+
 
 # Acknowledgments
 
