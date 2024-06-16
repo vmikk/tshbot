@@ -108,6 +108,22 @@ WantedBy=multi-user.target
 - `User=pi`: Change `pi` to the user that should run the service if different
 - `ExecStart=/home/pi/bin/tshbot`: If different, change to the actual path of the `tshbot` binary
 
+### 2. Reload `systemd` and enable the service
+
+```sh
+sudo systemctl daemon-reload
+```
+
+Enable the `tshbot` service to start on boot
+``` sh
+sudo systemctl enable tshbot.service
+```
+
+Start the `tshbot` service
+``` sh
+sudo systemctl start tshbot.service
+```
+
 
 # Acknowledgments
 
