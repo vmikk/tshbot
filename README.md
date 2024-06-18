@@ -134,6 +134,16 @@ Prerequisites
 - Go programming language installed on your system. You can download it from the official [Go website](https://go.dev/doc/install)
 - Source code of `tshbot` cloned from the repository
 
+## Building for local system
+
+To build the binary for your local system, simply run the following command in the project directory:
+
+``` sh
+go build tshbot.go
+```
+
+This will generate a binary named `tshbot` in the current directory.
+
 
 # Acknowledgments
 
