@@ -125,6 +125,16 @@ sudo systemctl start tshbot.service
 ```
 
 
+# Building the binary
+
+To manually build the `tshbot` binary for different architectures, including ARM for Raspberry Pi, follow these instructions:
+
+Prerequisites
+
+- Go programming language installed on your system. You can download it from the official [Go website](https://go.dev/doc/install)
+- Source code of `tshbot` cloned from the repository
+
+
 # Acknowledgments
 
 This project was inspired by [fnzv/trsh-go](https://github.com/fnzv/trsh-go).
