@@ -182,10 +182,10 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 				sendMessage(chatID, "Please provide a command to execute.", bot)
 				return
 			}
-			output := execShellCommand(cmd)
+			output := execShellCommand(cmd, true)
 			sendMessage(chatID, output, bot)
 		} else if fullCmd, ok := isAllowedCommand(cmdShortcut); ok {
-			output := execShellCommand(fullCmd)
+			output := execShellCommand(fullCmd, false)
 			sendMessage(chatID, output, bot)
 		} else {
 			log.Println("Command not recognized or allowed")
@@ -196,8 +196,15 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 	}
 }
 
-func execShellCommand(command string) string {
-	log.Printf("[%s] Executing command: %s %s %s", time.Now().Format(time.RFC3339), config.BashCmd, "-c", command)
+// Function to execute commands in bash, with optional highlighting (e.g., for arbitrary `shell` commands)
+func execShellCommand(command string, highlight bool) string {
+	var logMessage string
+	if highlight {
+		logMessage = strings.Repeat("*", 10) + " Executing command: " + config.BashCmd + " -c " + command + " " + strings.Repeat("*", 10)
+	} else {
+		logMessage = "Executing command: " + config.BashCmd + " -c " + command
+	}
+	log.Printf("[%s] %s", time.Now().Format(time.RFC3339), logMessage)
 	out, err := exec.Command(config.BashCmd, "-c", command).Output()
 	if err != nil {
 		log.Println("Error while running command:", err)
