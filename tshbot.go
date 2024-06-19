@@ -227,6 +227,9 @@ func validateAllowedCommands(commands map[string]string) error {
 		if seen[shortcut] {
 			return errors.New("shortcut '" + shortcut + "' is duplicated")
 		}
+		if shortcut == "shell" {
+			log.Println("WARNING: 'shell' shortcut is allowed. This poses a potential security risk as it allows arbitrary command execution.")
+		}
 		seen[shortcut] = true
 	}
 	return nil
