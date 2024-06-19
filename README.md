@@ -16,6 +16,33 @@ Initially it was developed with the idea of conveniently running commands on dev
 
 # Installation
 
+## 1. Download the pre-compiled binary
+
+You can download the appropriate pre-compiled binary for your platform from the [available releases](https://github.com/vmikk/tshbot/releases).
+
+##### E.g., general Linux release (64-bit `amd64`):
+
+```sh
+mkdir -p ~/bin
+wget \
+  -O ~/bin/tshbot \
+  https://github.com/vmikk/tshbot/releases/download/0.1/tshbot-linux-amd64
+chmod +x ~/bin/tshbot
+```
+
+##### Or release for Raspberry Pi Zero 2 W (`arm`):
+
+```sh
+mkdir -p ~/bin
+wget \
+  -O ~/bin/tshbot \
+  https://github.com/vmikk/tshbot/releases/download/0.1/tshbot-linux-arm
+chmod +x ~/bin/tshbot
+```
+
+
+## 2. Create a configuration file
+
 Create a configuration file at `~/.config/tshbot/tshbot.config` with the following content:
 
 ``` yaml
