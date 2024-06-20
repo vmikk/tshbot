@@ -4,7 +4,9 @@
 
 Initially it was developed with the idea of conveniently running commands on devices like Raspberry Pi remotely, eliminating the need to use SSH. Designed for ease of use, `tshbot` does not require complex setups such as VPNs or NAT traversal, simplifying your remote management experience.
 
-![tshbot - Telegram screenshot](assets/tshbot_telegram.webp)
+<p align="middle">
+  <img src="assets/tshbot_telegram.webp"  width=70% height=70% title="tshbot - Telegram screenshot"/>
+</p>
 
 ### Features
 
