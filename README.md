@@ -65,6 +65,10 @@ Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGR
 
 In the `allowed_cmds` section of the config, you can configure shortcuts for various shell commands that you wish to use frequently. This section is structured as a dictionary where each entry consists of two parts:
 
+- **Shortcut Name:** The key on the left side of the colon (`:`) represents the name of the shortcut. This is a unique identifier you will use to refer to the command;
+- **Command:** The value on the right side of the colon is the actual command that will be executed in the shell when the shortcut is used.
+
+For example, the shortcut `pingg` will execute the command `ping -c 3 8.8.8.8`.
 
 ### Security considerations
 
