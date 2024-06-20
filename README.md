@@ -55,13 +55,16 @@ bash_cmd: "/bin/bash"
 tg_bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
 tg_bot_chat_id: "YOUR_TELEGRAM_CHAT_ID"
 allowed_cmds:
-  ls: 'ls -la'
-  cmd: 'your commands here'
+  pingg: 'ping -c 3 8.8.8.8'
   uptime: 'uptime'
-  shell: ''
+  runscript: 'bash ~/bin/myscript.sh'
+  shell: ""
 help_message: "Use /commands to see available commands."
 ```
-Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGRAM_CHAT_ID` with your actual paths and credentials.
+Replace `/path/to/your/logfile.log`, `YOUR_TELEGRAM_BOT_TOKEN`, and `YOUR_TELEGRAM_CHAT_ID` with your actual paths and credentials.  
+
+In the `allowed_cmds` section of the config, you can configure shortcuts for various shell commands that you wish to use frequently. This section is structured as a dictionary where each entry consists of two parts:
+
 
 ### Security considerations
 
