@@ -20,6 +20,18 @@ Initially it was developed with the idea of conveniently running commands on dev
 
 # Installation
 
+## 0. Set up a Telegram bot 
+
+### Create a bot
+
+1. **Start a chat with BotFather:** Open Telegram and search for "@BotFather". Start a chat with this bot, which is the official bot creation tool from Telegram;
+2. **Create a new bot:** Send the command `/newbot` to BotFather;
+3. **Set a name for your bot:** Follow the prompts and provide a name for your bot. This will be the public name that users see;
+4. **Set a username for your bot:** Next, you'll need to choose a unique username for your bot (this username must contain "bot").
+
+After completing these steps, BotFather will provide you with a **token**. This is your bot’s authentication token, which you’ll use to send and receive messages via the Telegram API.
+
+
 ## 1. Download the pre-compiled binary
 
 You can download the appropriate pre-compiled binary for your platform from the [available releases](https://github.com/vmikk/tshbot/releases).
