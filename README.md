@@ -31,6 +31,17 @@ Initially it was developed with the idea of conveniently running commands on dev
 
 After completing these steps, BotFather will provide you with a **token**. This is your bot’s authentication token, which you’ll use to send and receive messages via the Telegram API.
 
+### Obtain chat ID
+
+1. **Start a chat with your bot:** Find your bot on Telegram using the username you set and start a conversation;
+2. **Paste the following URL into your browser**, replacing `<YourBotToken>` with the token you received from BotFather:
+
+   ```
+   https://api.telegram.org/bot<YourBotToken>/getUpdates
+   ```
+
+3. **Find your chat ID:** Look for a number labeled `"chat":{"id":` in the response.
+
 
 ## 1. Download the pre-compiled binary
 
