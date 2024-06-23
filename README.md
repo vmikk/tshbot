@@ -139,7 +139,7 @@ The configuration file (`tshbot.config`) should contain the following fields:
 The tool logs its activities and command executions to the specified log file. 
 Make sure the bot has write permissions to the log file.
 
-# Auto-starting `tshbot`
+# Auto-starting `tshbot` (on Linux-based systems with `systemd`)
 
 To ensure `tshbot` starts automatically on your system, you can create a `systemd` service file. 
 Follow these steps to set it up:
