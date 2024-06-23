@@ -185,6 +185,15 @@ Start the `tshbot` service
 sudo systemctl start tshbot.service
 ```
 
+### 3. Verify the service
+
+To check the status of the `tshbot` service and to ensure it is running correctly, use:
+``` sh
+sudo systemctl status tshbot.service
+```
+
+If everything is set up correctly, you should see an active (running) status.
+
 
 # Building the binary
 
