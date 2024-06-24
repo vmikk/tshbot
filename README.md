@@ -194,6 +194,27 @@ sudo systemctl status tshbot.service
 
 If everything is set up correctly, you should see an active (running) status.
 
+## Managing the Service
+
+To start the service:
+```sh
+sudo systemctl start tshbot.service
+```
+
+To stop the service:
+```sh
+sudo systemctl stop tshbot.service
+```
+
+To restart the service:
+```sh
+sudo systemctl restart tshbot.service
+```
+
+To check the service logs:
+```sh
+sudo journalctl -u tshbot.service
+```
 
 # Building the binary
 
