@@ -34,7 +34,7 @@ func init() {
 	// Get the user's home directory
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal("Error getting user's home directory:", err)
+		log.Fatalf("Error getting user's home directory: %v", err)
 	}
 
 	// Construct the full path to the configuration file
@@ -43,12 +43,12 @@ func init() {
 	// Load the configuration file
 	file, err := os.ReadFile(configFilePath)
 	if err != nil {
-		log.Fatal("Error loading configuration file:", err)
+		log.Fatalf("Error loading configuration file: %v", err)
 	}
 
 	// Decode config
 	if err := yaml.Unmarshal(file, &config); err != nil {
-		log.Fatal("Error decoding configuration file:", err)
+		log.Fatalf("Error decoding configuration file: %v", err)
 	}
 
 	// Validate token presence
