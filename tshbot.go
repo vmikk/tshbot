@@ -113,6 +113,7 @@ func sendStartupMessage(bot *tgbotapi.BotAPI) {
 	// Get the current user
 	userName, err := os.UserHomeDir()
 	if err != nil {
+		log.Printf("Error retrieving user home directory: %v", err)
 		userName = "unknown"
 	} else {
 		userName = filepath.Base(userName)
@@ -121,6 +122,7 @@ func sendStartupMessage(bot *tgbotapi.BotAPI) {
 	// Get the host name
 	hostName, err := os.Hostname()
 	if err != nil {
+		log.Printf("Error retrieving hostname: %v", err)
 		hostName = "unknown"
 	}
 
@@ -128,11 +130,14 @@ func sendStartupMessage(bot *tgbotapi.BotAPI) {
 	resp, err := http.Get("https://api.ipify.org?format=text")
 	var ipAddress string
 	if err != nil {
+		log.Printf("Error fetching external IP address (using ipify.org): %v", err)
 		ipAddress = "unknown"
 	} else {
+		// Ensure response body is closed after reading
 		defer resp.Body.Close()
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
+			log.Printf("Error reading external IP address response: %v", err)
 			ipAddress = "unknown"
 		} else {
 			ipAddress = string(body)
