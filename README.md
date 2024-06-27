@@ -235,6 +235,16 @@ go build tshbot.go
 
 This will generate a binary named `tshbot` in the current directory.
 
+## Building for ARM (e.g., Raspberry Pi)
+
+To build a binary for ARM architecture use the following command:
+
+``` sh
+env GOOS=linux GOARCH=arm go build -o tshbot tshbot.go
+```
+
+This command sets the `GOOS` and `GOARCH` environment variables to target the ARM architecture on Linux systems.
+
 
 # Acknowledgments
 
