@@ -64,10 +64,10 @@ func init() {
 
 func main() {
 
-	// Setup logging
+	// Setup logging (open or create the log file)
 	f, err := os.OpenFile(config.BotLogFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error opening log file: %v", err)
 	}
 	defer f.Close()
 	log.SetOutput(f)
