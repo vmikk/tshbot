@@ -159,7 +159,7 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 	chatID := message.Chat.ID
 	userID := message.From.ID
 
-	log.Printf("Received command: %s from user: %d", text, userID)
+	log.Printf("Received command: '%s' from user ID: %d, Username: %s", text, userID, message.From.UserName)
 
 	// Handle specific commands first
 	switch text {
