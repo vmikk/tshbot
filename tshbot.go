@@ -75,7 +75,7 @@ func main() {
 	// Initialize bot
 	bot, err := tgbotapi.NewBotAPI(config.TGBotToken)
 	if err != nil {
-		log.Panic(err)
+		log.Panicf("Error initializing bot: %v", err)
 	}
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
@@ -85,9 +85,7 @@ func main() {
 	// Create a new UpdateConfig struct with an offset of 0.
 	// Offsets are used to make sure Telegram knows we've handled previous values and we don't need them repeated.
 	u := tgbotapi.NewUpdate(0)
-
-	// Wait up to 40 seconds on each request for an update
-	u.Timeout = 40
+	u.Timeout = 40 // Set the timeout to 40 seconds to wait for new updates
 
 	// Start polling Telegram for updates
 	updates := bot.GetUpdatesChan(u)
