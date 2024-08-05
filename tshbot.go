@@ -195,7 +195,7 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 			sendMessage(chatID, "Command not recognized or allowed", bot)
 		}
 	} else {
-		sendMessage(chatID, "Commands should start with /. Use /help for available commands.", bot)
+		sendMessage(chatID, "Commands should start with /. Use /commands to see available commands, or type /help.", bot)
 	}
 }
 
