@@ -245,6 +245,14 @@ env GOOS=linux GOARCH=arm go build -o tshbot tshbot.go
 
 This command sets the `GOOS` and `GOARCH` environment variables to target the ARM architecture on Linux systems.
 
+## Building for ARM64
+
+If you need to build for ARM64 architecture, use this command instead:
+
+``` sh
+env GOOS=linux GOARCH=arm64 go build -o tshbot-linux-arm64 tshbot.go
+```
+
 
 # Acknowledgments
 
