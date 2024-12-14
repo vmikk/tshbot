@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -113,12 +114,12 @@ func sendStartupMessage(bot *tgbotapi.BotAPI) {
 	currentTime := time.Now().Format(time.RFC1123)
 
 	// Get the current user
-	userName, err := os.UserHomeDir()
+	currentUser, err := user.Current()
 	if err != nil {
-		log.Printf("Error retrieving user home directory: %v", err)
+		log.Printf("Error retrieving current user: %v", err)
 		userName = "unknown"
 	} else {
-		userName = filepath.Base(userName)
+		userName = currentUser.Username
 	}
 
 	// Get the host name
