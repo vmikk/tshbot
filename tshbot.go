@@ -32,11 +32,14 @@ var reservedWords = []string{"help", "commands"}
 
 func init() {
 
-	// Get the user's home directory
-	homeDir, err := os.UserHomeDir()
+	// Get the current user
+	currentUser, err := user.Current()
 	if err != nil {
-		log.Fatalf("Error getting user's home directory: %v", err)
+		log.Fatalf("Error getting current user: %v", err)
 	}
+
+	// Use the user's home directory
+	homeDir := currentUser.HomeDir
 
 	// Construct the full path to the configuration file
 	configFilePath := filepath.Join(homeDir, ".config/tshbot/tshbot.config")
