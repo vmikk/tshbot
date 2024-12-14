@@ -178,7 +178,15 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 
 	// Check for user-allowed commands with user-defined shortcuts
 	if strings.HasPrefix(text, "/") {
-		cmdShortcut := strings.Fields(strings.TrimPrefix(text, "/"))[0]
+		cmdShortcut := strings.TrimPrefix(text, "/")
+		fields := strings.Fields(cmdShortcut)
+		if len(fields) > 0 {
+			cmdShortcut = fields[0]
+		} else {
+			sendMessage(chatID, "Invalid command format. Use /commands to see available commands, or type /help.", bot)
+			return
+		}
+
 		if cmdShortcut == "shell" {
 			// Handle the special case for shell shortcut
 			cmd := strings.TrimSpace(strings.TrimPrefix(text, "/shell"))
