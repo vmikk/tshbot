@@ -217,7 +217,8 @@ func execShellCommand(command string, highlight bool) string {
 		logMessage = "Executing command: " + command
 	}
 	log.Printf("[%s] %s", time.Now().Format(time.RFC3339), logMessage)
-	out, err := exec.Command(config.BashCmd, "-c", command).Output()
+	cmd := exec.Command(config.BashCmd, "-c", command)
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Printf("Error while running command: %v", err)
 		return fmt.Sprintf("Error executing command: %s\n%s", err, string(out))
