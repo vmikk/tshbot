@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -191,7 +192,7 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 			output := execShellCommand(fullCmd, false)
 			sendMessage(chatID, output, bot)
 		} else {
-			log.Println("Command not recognized or allowed")
+			log.Printf("Command not recognized or allowed: %s", cmdShortcut)
 			sendMessage(chatID, "Command not recognized or allowed", bot)
 		}
 	} else {
@@ -203,15 +204,15 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 func execShellCommand(command string, highlight bool) string {
 	var logMessage string
 	if highlight {
-		logMessage = strings.Repeat("*", 10) + " Executing command: " + config.BashCmd + " -c " + command + " " + strings.Repeat("*", 10)
+		logMessage = strings.Repeat("*", 10) + " Executing command: " + command + " " + strings.Repeat("*", 10)
 	} else {
-		logMessage = "Executing command: " + config.BashCmd + " -c " + command
+		logMessage = "Executing command: " + command
 	}
 	log.Printf("[%s] %s", time.Now().Format(time.RFC3339), logMessage)
 	out, err := exec.Command(config.BashCmd, "-c", command).Output()
 	if err != nil {
-		log.Println("Error while running command:", err)
-		return "Error executing command"
+		log.Printf("Error while running command: %v", err)
+		return fmt.Sprintf("Error executing command: %s\n%s", err, string(out))
 	}
 	return string(out)
 }
@@ -219,7 +220,7 @@ func execShellCommand(command string, highlight bool) string {
 func sendMessage(chatID int64, text string, bot *tgbotapi.BotAPI) {
 	msg := tgbotapi.NewMessage(chatID, text)
 	if _, err := bot.Send(msg); err != nil {
-		log.Println("Error sending message:", err)
+		log.Printf("Error sending message: %v", err)
 	}
 }
 
