@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -8,10 +9,13 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"os/signal"
 	"os/user"
 	"path/filepath"
+	"signal"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -68,6 +72,17 @@ func init() {
 }
 
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		<-sigChan
+		log.Println("Shutting down...")
+		cancel()
+	}()
 
 	// Setup logging (open or create the log file)
 	f, err := os.OpenFile(config.BotLogFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
@@ -95,16 +110,13 @@ func main() {
 	// Start polling Telegram for updates
 	updates := bot.GetUpdatesChan(u)
 
-	// Go through each update that we're getting from Telegram
-	for update := range updates {
-		if update.Message == nil {
-			continue
-		}
-
-		chatID := strconv.Itoa(int(update.Message.Chat.ID))
-		if chatID == config.TGBotChatID {
-			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-			handleCommand(update.Message, bot)
+	// Use select to handle both updates and shutdown
+	for {
+		select {
+		case update := <-updates:
+			handleUpdate(update, bot)
+		case <-ctx.Done():
+			return
 		}
 	}
 }
@@ -266,4 +278,17 @@ func contains(slice []string, item string) bool {
 		}
 	}
 	return false
+}
+
+// Handle updates from Telegram
+func handleUpdate(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
+	if update.Message == nil {
+		return
+	}
+
+	chatID := strconv.FormatInt(update.Message.Chat.ID, 10)
+	if chatID == config.TGBotChatID {
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+		handleCommand(update.Message, bot)
+	}
 }
