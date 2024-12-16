@@ -53,7 +53,7 @@ You can download the appropriate pre-compiled binary for your platform from the 
 mkdir -p ~/bin
 wget \
   -O ~/bin/tshbot \
-  https://github.com/vmikk/tshbot/releases/download/0.1/tshbot-linux-amd64
+  https://github.com/vmikk/tshbot/releases/download/0.2/tshbot-linux-amd64
 chmod +x ~/bin/tshbot
 ```
 
@@ -63,7 +63,7 @@ chmod +x ~/bin/tshbot
 mkdir -p ~/bin
 wget \
   -O ~/bin/tshbot \
-  https://github.com/vmikk/tshbot/releases/download/0.1/tshbot-linux-arm
+  https://github.com/vmikk/tshbot/releases/download/0.2/tshbot-linux-arm
 chmod +x ~/bin/tshbot
 ```
 
