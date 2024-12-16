@@ -130,12 +130,14 @@ The configuration file (`tshbot.config`) should contain the following fields:
 
 - `/help`: Displays the help message
 - `/commands`: Lists all available commands
-- `/used_defined_shortcuts`: Executes a predefined command based on the shortcut defined in the configuration (e.g., `/cmd`)
+- used-defined shortcuts (specified in `allowed_cmds`): Execute a predefined command based on the shortcut defined in the configuration (e.g., `/cmd`)
 - `/shell` [command]: Executes a shell command directly (if allowed in the configuration)
 
 ## Examples
 
-- Sending `/ls` via Telegram will execute `ls -la` on the server.
+Using the example configuration file shown above, you can send the following commands via Telegram:
+
+- Sending `/uptime` via Telegram will execute `uptime` on the server.
 - Sending `/shell uname -a` will execute `uname -a` on the server.
 
 ## Logging
