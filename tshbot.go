@@ -12,7 +12,6 @@ import (
 	"os/signal"
 	"os/user"
 	"path/filepath"
-	"signal"
 	"strconv"
 	"strings"
 	"syscall"
@@ -24,12 +23,13 @@ import (
 
 // Config structure to hold the configuration data
 type Config struct {
-	BotLogFile  string            `yaml:"bot_log_file"`
-	BashCmd     string            `yaml:"bash_cmd"`
-	TGBotToken  string            `yaml:"tg_bot_token"`
-	TGBotChatID string            `yaml:"tg_bot_chat_id"`
-	AllowedCmds map[string]string `yaml:"allowed_cmds"`
-	HelpMessage string            `yaml:"help_message"`
+	BotLogFile     string            `yaml:"bot_log_file"`
+	BashCmd        string            `yaml:"bash_cmd"`
+	TGBotToken     string            `yaml:"tg_bot_token"`
+	TGBotChatID    string            `yaml:"tg_bot_chat_id"`
+	CommandTimeout int               `yaml:"command_timeout"`
+	AllowedCmds    map[string]string `yaml:"allowed_cmds"`
+	HelpMessage    string            `yaml:"help_message"`
 }
 
 var config Config
@@ -126,6 +126,7 @@ func sendStartupMessage(bot *tgbotapi.BotAPI) {
 	currentTime := time.Now().Format(time.RFC1123)
 
 	// Get the current user
+	var userName string
 	currentUser, err := user.Current()
 	if err != nil {
 		log.Printf("Error retrieving current user: %v", err)
@@ -283,6 +284,13 @@ func contains(slice []string, item string) bool {
 // Handle updates from Telegram
 func handleUpdate(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	if update.Message == nil {
+		return
+	}
+
+	// Check message age
+	messageAge := time.Since(time.Unix(int64(update.Message.Date), 0))
+	if config.CommandTimeout > 0 && messageAge.Seconds() > float64(config.CommandTimeout) {
+		log.Printf("Ignoring old command (age: %.0f seconds): %s", messageAge.Seconds(), update.Message.Text)
 		return
 	}
 
