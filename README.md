@@ -77,6 +77,7 @@ bot_log_file: "/path/to/your/logfile.log"
 bash_cmd: "/bin/bash"
 tg_bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
 tg_bot_chat_id: "YOUR_TELEGRAM_CHAT_ID"
+command_timeout: 300
 allowed_cmds:
   pingg: 'ping -c 3 8.8.8.8'
   uptime: 'uptime'
@@ -92,6 +93,8 @@ In the `allowed_cmds` section of the config, you can configure shortcuts for var
 - **Command:** The value on the right side of the colon is the actual command that will be executed in the shell when the shortcut is used.
 
 For example, the shortcut `pingg` will execute the command `ping -c 3 8.8.8.8`.
+
+Parameter `command_timeout` sets the timeout for old commands (in seconds). If the command is older than the timeout, it will be ignored. For example, setting `command_timeout: 300` will ignore commands older than 5 minutes.
 
 ### Security considerations
 
@@ -117,6 +120,7 @@ The configuration file (`tshbot.config`) should contain the following fields:
 - `bash_cmd`: Path to the bash executable
 - `tg_bot_token`: Telegram bot token
 - `tg_bot_chat_id`: Telegram chat ID for the bot
+- `command_timeout`: Timeout for old commands (in seconds)
 - `allowed_cmds`: A map of command shortcuts to the actual shell commands
 - `help_message`: Message displayed when the /help command is issued
 
