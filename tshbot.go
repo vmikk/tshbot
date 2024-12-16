@@ -35,6 +35,11 @@ type Config struct {
 var config Config
 var reservedWords = []string{"help", "commands"}
 
+const (
+	colorGreen = "\033[32m"
+	colorReset = "\033[0m"
+)
+
 func init() {
 
 	// Get the current user
@@ -75,11 +80,14 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	fmt.Printf("%sStarting tshbot%s\n", colorGreen, colorReset)
+
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		<-sigChan
+		fmt.Printf("%sShutting down tshbot%s\n", colorGreen, colorReset)
 		log.Println("Shutting down...")
 		cancel()
 	}()
