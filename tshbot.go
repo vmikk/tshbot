@@ -197,25 +197,27 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 	if strings.HasPrefix(text, "/") {
 		cmdShortcut := strings.TrimPrefix(text, "/")
 		fields := strings.Fields(cmdShortcut)
-		if len(fields) > 0 {
-			cmdShortcut = fields[0]
-		} else {
+		if len(fields) == 0 {
 			sendMessage(chatID, "Invalid command format. Use /commands to see available commands, or type /help.", bot)
 			return
 		}
+		cmdShortcut = fields[0]
 
-		if cmdShortcut == "shell" {
-			// Handle the special case for shell shortcut
-			cmd := strings.TrimSpace(strings.TrimPrefix(text, "/shell"))
-			if cmd == "" {
-				sendMessage(chatID, "Please provide a command to execute.", bot)
-				return
+		// Check if the command exists in allowed commands
+		if fullCmd, ok := config.AllowedCmds[cmdShortcut]; ok {
+			if cmdShortcut == "shell" {
+				// Handle the special case for shell shortcut
+				cmd := strings.TrimSpace(strings.TrimPrefix(text, "/shell"))
+				if cmd == "" {
+					sendMessage(chatID, "Please provide a command to execute.", bot)
+					return
+				}
+				output := execShellCommand(cmd, true)
+				sendMessage(chatID, output, bot)
+			} else {
+				output := execShellCommand(fullCmd, false)
+				sendMessage(chatID, output, bot)
 			}
-			output := execShellCommand(cmd, true)
-			sendMessage(chatID, output, bot)
-		} else if fullCmd, ok := isAllowedCommand(cmdShortcut); ok {
-			output := execShellCommand(fullCmd, false)
-			sendMessage(chatID, output, bot)
 		} else {
 			log.Printf("Command not recognized or allowed: %s", cmdShortcut)
 			sendMessage(chatID, "Command not recognized or allowed", bot)
