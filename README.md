@@ -104,6 +104,10 @@ Parameter `command_timeout` sets the timeout for old commands (in seconds). If t
 > It may lead to unauthorized access, system compromise, or data loss. 
 > To mitigate these risks, you may remove the `shell` shortcut from the `allowed_cmds` configuration. 
 > This will **allow only the white-listed commands** specified in `allowed_cmds`.
+>
+> Similarly, enabling `allow_arguments` can pose security risks as it allows passing arbitrary arguments 
+> to white-listed commands. Only enable this feature if you trust the users and have properly sanitized 
+> your scripts against malicious input.
 
 ## 3. Run the tool
 
