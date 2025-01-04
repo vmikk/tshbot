@@ -78,6 +78,7 @@ bash_cmd: "/bin/bash"
 tg_bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
 tg_bot_chat_id: "YOUR_TELEGRAM_CHAT_ID"
 command_timeout: 300
+allow_arguments: false
 allowed_cmds:
   pingg: 'ping -c 3 8.8.8.8'
   uptime: 'uptime'
@@ -121,6 +122,7 @@ The configuration file (`tshbot.config`) should contain the following fields:
 - `tg_bot_token`: Telegram bot token
 - `tg_bot_chat_id`: Telegram chat ID for the bot
 - `command_timeout`: Timeout for old commands (in seconds)
+- `allow_arguments`: Enable or disable passing arguments to white-listed commands (default: false)
 - `allowed_cmds`: A map of command shortcuts to the actual shell commands
 - `help_message`: Message displayed when the /help command is issued
 
