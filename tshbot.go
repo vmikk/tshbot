@@ -29,6 +29,7 @@ type Config struct {
 	TGBotChatID    string            `yaml:"tg_bot_chat_id"`
 	CommandTimeout int               `yaml:"command_timeout"`
 	AllowedCmds    map[string]string `yaml:"allowed_cmds"`
+	AllowArguments bool              `yaml:"allow_arguments"`
 	HelpMessage    string            `yaml:"help_message"`
 }
 
@@ -223,7 +224,17 @@ func handleCommand(message *tgbotapi.Message, bot *tgbotapi.BotAPI) {
 				output := execShellCommand(cmd, true)
 				sendMessage(chatID, output, bot)
 			} else {
-				output := execShellCommand(fullCmd, false)
+				// Handle arguments for non-shell commands
+				args := strings.TrimSpace(strings.TrimPrefix(text, "/"+cmdShortcut))
+				if args != "" && !config.AllowArguments {
+					sendMessage(chatID, "Arguments are not allowed for this command. Configure 'allow_arguments: true' to enable this feature.", bot)
+					return
+				}
+				cmd := fullCmd
+				if args != "" {
+					cmd = fullCmd + " " + args
+				}
+				output := execShellCommand(cmd, false)
 				sendMessage(chatID, output, bot)
 			}
 		} else {
