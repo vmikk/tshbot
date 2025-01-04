@@ -290,6 +290,12 @@ func validateAllowedCommands(commands map[string]string) error {
 		}
 		seen[shortcut] = true
 	}
+
+	// Add warning about `allow_arguments` being enabled
+	if config.AllowArguments {
+		log.Println("WARNING: 'allow_arguments' is enabled. This poses a potential security risk as it allows passing arbitrary arguments to commands.")
+	}
+
 	return nil
 }
 
