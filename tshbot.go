@@ -80,14 +80,14 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	fmt.Printf("%sStarting tshbot%s\n", colorGreen, colorReset)
+	fmt.Printf("%stshbot started%s\n", colorGreen, colorReset)
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		<-sigChan
-		fmt.Printf("%sShutting down tshbot%s\n", colorGreen, colorReset)
+		fmt.Printf("\n%sShutting down tshbot%s\n", colorGreen, colorReset)
 		log.Println("Shutting down...")
 		cancel()
 	}()
